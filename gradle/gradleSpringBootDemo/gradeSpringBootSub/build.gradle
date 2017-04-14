@@ -1,0 +1,73 @@
+// Note: "common.gradle" in the root project contains additional initialization
+//   for this project. This initialization is applied in the "build.gradle"
+//   of the root project.
+
+// NetBeans will automatically add "run" and "debug" tasks relying on the
+// "mainClass" property. You may however define the property prior executing
+// tasks by passing a "-PmainClass=<QUALIFIED_CLASS_NAME>" argument.
+//
+// Note however, that you may define your own "run" and "debug" task if you
+// prefer. In this case NetBeans will not add these tasks but you may rely on
+// your own implementation.
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'com.synjones.SpringBootApplicationPrivider'
+}
+
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'http://repo.spring.io/snapshot' }
+        maven { url 'http://repo.spring.io/milestone' }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.BUILD-SNAPSHOT'
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'gradleSpringBootSub'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    jcenter()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+}
+
+
+dependencies {
+    // TODO: Add dependencies here
+    //   but note that JUnit should have already been added in parent.gradle.
+    //   By default, only the Maven Central Repository is specified in
+    //   parent.gradle.
+    //
+    // You can read more about how to add dependency here:
+    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
+    
+        compile("org.springframework.boot:spring-boot-starter-web")
+// tag::jetty[]
+//    compile("org.springframework.boot:spring-boot-starter-web") {
+//        exclude module: "spring-boot-starter-tomcat"
+//    }
+//    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // end::jetty[]
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    // end::actuator[]
+    
+    compile group: 'org.springframework.boot', name: 'spring-boot-dependencies', version: '1.4.3.RELEASE'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.4'
+    compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.2.0'
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    
+    
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+//gradle build
+//java -jar build/libs/mymodule-0.0.1-SNAPSHOT.jar
